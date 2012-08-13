@@ -1,0 +1,31 @@
+{
+      "name": "percolatorWritableExample",
+      "description" : "An example of full CRUD witha  Percolator resource",
+      "keywords" : ["api", "rest", "http", "resource", "hypermedia"], 
+      "version": "0.0.1",
+      "bugs": {
+       "url": "https://github.com/cainus/percolatorWritableExample/issues"
+      },
+      "scripts" : {
+        "test" : "make test"
+      },
+      "maintainers": [
+        {
+          "name": "Gregg Caines",
+          "email": "gregg@caines.ca",
+          "web": "http://caines.ca"
+        } 
+      ],
+      "dependencies": {
+          "percolator" : "0.2.3",
+          "muster" : "0.9.3",
+          "underscore" : "",
+          "resorcery" : "0.1.3"
+      },
+      "devDependencies" : {
+          "mockery" : "1.1.2",
+          "hottap" : "1.0.0",
+          "mocha" : "1.3.0",
+          "should" : "0.3.2"
+      }
+}
