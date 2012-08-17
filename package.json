@@ -2,7 +2,7 @@
       "name": "percolatorWritableExample",
       "description" : "An example of full CRUD witha  Percolator resource",
       "keywords" : ["api", "rest", "http", "resource", "hypermedia"], 
-      "version": "0.0.1",
+      "version": "0.0.2",
       "bugs": {
        "url": "https://github.com/cainus/percolatorWritableExample/issues"
       },
@@ -17,7 +17,7 @@
         } 
       ],
       "dependencies": {
-          "percolator" : "0.2.3",
+          "Percolator" : "0.3.1",
           "muster" : "0.9.3",
           "underscore" : "",
           "resorcery" : "0.1.3"
@@ -25,7 +25,7 @@
       "devDependencies" : {
           "mockery" : "1.1.2",
           "hottap" : "1.0.0",
-          "mocha" : "1.3.0",
-          "should" : "0.3.2"
+          "mocha" : "1.3.2",
+          "should" : "1.1.0"
       }
 }

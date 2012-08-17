@@ -1,5 +1,4 @@
 var Percolator = require('Percolator');
-var express = require('express');
 
 var artists = {
   '0' : {name : "Joe Strummer", id : '0'},

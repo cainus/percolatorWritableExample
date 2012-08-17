@@ -19,17 +19,16 @@ exports.handler = {
   POST : function(req, res){
     console.log(req.body);
     var validator = new Muster();
-    validator.mustHaveKeys(["id", "name"])
-             .key("id").mustEqual(this.uri.params().artists + '')
-             .key("id").mustMatch(/[0-9]+/);
+    validator.mustHaveKeys(["name"]);
     try {
       validator.check(req.body);
     } catch(ex){
       this.status.badRequest(ex);
     }
-    this.app.artists[parseInt(req.body.id, 10)] = req.body; // the update
-
-    res.redirect(this.uri.self());
+    var id = this.app.artists.length;
+    this.app.artists[id] = req.body;
+    // TODO: need a this.redirect!
+    //res.redirect(this.uri.self());
   }
 
 };
