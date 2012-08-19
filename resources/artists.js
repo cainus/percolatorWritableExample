@@ -2,20 +2,30 @@ var _ = require('underscore');
 var Resource = require('resorcery').resource;
 var Muster = require('muster');
 
+
+var getMaxId = function(db){
+  var max = 0;
+  _.each(db, function(v, k){
+    var id = parseInt(k, 10);
+    if (max < id){
+      max = id;
+    }
+  });
+  return max;
+};
+
+
 exports.handler = {
   GET : function(req, res){
     var that = this;
-    var links = this.uri.links();
     var artists = _.extend(this.app.artists);
     artists = _.map(artists, function(artist){
-      artist._links = { self : that.uri.self() + '/' + artist.id };
+      artist._links = { self : that.uri.get('artists*', {artists : artist.id}) };
       return artist;
     });
-    this.repr({collection : artists, _links : links});
+    this.repr({collection : artists, _links : this.uri.links()});
   },
 
-  // TODO: make this work.  maybe it does.
-  // switch to a uuid mode
   POST : function(req, res){
     console.log(req.body);
     var validator = new Muster();
@@ -25,10 +35,10 @@ exports.handler = {
     } catch(ex){
       this.status.badRequest(ex);
     }
-    var id = this.app.artists.length;
+    var id = (getMaxId(this.app.artists) + 1) + '';
+    req.body.id = id;
     this.app.artists[id] = req.body;
-    // TODO: need a this.redirect!
-    //res.redirect(this.uri.self());
+    this.status.created(this.uri.self());
   }
 
 };
@@ -40,7 +50,7 @@ var getArtistById = function(artists, id){
 exports.member = new Resource({
 
   fetch : function(req, cb){
-    var artist = this.app.artists[parseInt(this.uri.params().artists, 10)];
+    var artist = this.app.artists[this.uri.param('artists')];
     if (!artist){
       return cb(true); // error!
     }
@@ -65,14 +75,12 @@ exports.member = new Resource({
     res.end();
   },
 
-  // TODO a PUT without "Content-Type: application/json" should throw a 406 Not Acceptable error
-  // This will 400 if it doesn't get the right content-type
   PUT : function(req, res){
     console.log(req.body);
     req.body.id += '';
     var validator = new Muster();
     validator.mustHaveKeys(["id", "name"])
-             .key("id").mustEqual(this.uri.params().artists + '')
+             .key("id").mustEqual(this.uri.param('artists'))
              .key("id").mustMatch(/[0-9]+/);
     try {
       validator.check(req.body);
